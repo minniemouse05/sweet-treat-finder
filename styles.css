@@ -3,18 +3,18 @@
    ======================================== */
 
 :root {
-  --bg-color: #FAF9F6;
-  --card-bg: #FFFFFF;
-  --primary: #E94057;
-  --primary-light: #FFE5E8;
-  --secondary: #8B5CF6;
-  --nope: #6B7280;
-  --nope-light: #F3F4F6;
-  --text-dark: #1F2937;
-  --text-muted: #6B7280;
-  --text-light: #9CA3AF;
-  --success: #10B981;
-  --warning: #F59E0B;
+  --bg-color: #faf9f6;
+  --card-bg: #ffffff;
+  --primary: #e94057;
+  --primary-light: #ffe5e8;
+  --secondary: #8b5cf6;
+  --nope: #6b7280;
+  --nope-light: #f3f4f6;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --success: #10b981;
+  --warning: #f59e0b;
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
   --radius: 24px;
@@ -28,7 +28,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-dark);
   min-height: 100vh;
@@ -125,7 +125,7 @@ body {
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, var(--primary) 0%, #F472B6 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #f472b6 100%);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -225,7 +225,7 @@ body {
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -333,18 +333,66 @@ body {
 }
 
 .study-badge.great {
-  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-  color: #065F46;
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
 }
 
 .study-badge.good {
-  background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
-  color: #1E40AF;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
 }
 
 .study-badge.inconclusive {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-  color: #92400E;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+/* Study Badge Tooltip */
+.study-badge-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.study-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  background: var(--text-dark);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.study-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  border: 6px solid transparent;
+  border-top-color: var(--text-dark);
+}
+
+.study-badge-wrapper:hover .study-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tooltip-features {
+  color: #d1d5db;
 }
 
 .maps-link {
@@ -409,7 +457,7 @@ body {
 }
 
 .action-btn.save {
-  background: linear-gradient(135deg, var(--primary) 0%, #F472B6 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #f472b6 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(233, 64, 87, 0.3);
 }
@@ -462,7 +510,7 @@ body {
 }
 
 .back-btn:hover {
-  background: #E5E7EB;
+  background: #e5e7eb;
 }
 
 .saved-card {

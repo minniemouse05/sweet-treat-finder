@@ -480,23 +480,61 @@ function analyzeStudyScore(reviews) {
   return { score: features.length, features };
 }
 
-// Get study badge HTML
+// Get study badge HTML with tooltip
 function getStudyBadgeHtml(studyData) {
   const { score, features } = studyData;
   const hasWifi = features.includes("wifi");
   const otherFeatures = features.filter((f) => f !== "wifi").length;
 
+  // Feature display names
+  const featureLabels = {
+    wifi: "WiFi",
+    laptop: "Laptop-friendly",
+    outlets: "Outlets",
+    seating: "Good seating",
+    quiet: "Quiet atmosphere",
+  };
+
+  // Build detected features text
+  const detectedFeatures = features.map((f) => featureLabels[f] || f);
+  const featuresText =
+    detectedFeatures.length > 0
+      ? detectedFeatures.join(", ")
+      : "No features detected";
+
+  let badgeClass, badgeText, reasonText;
+
   if (hasWifi && otherFeatures >= 1) {
-    return `<span class="study-badge great">📚 Great study spot</span>`;
+    badgeClass = "great";
+    badgeText = "Great study spot";
+    reasonText = "WiFi + other features";
   } else if (hasWifi) {
-    return `<span class="study-badge good">📚 Good study spot</span>`;
+    badgeClass = "good";
+    badgeText = "Good study spot";
+    reasonText = "WiFi mentioned in reviews";
   } else if (score >= 2) {
-    return `<span class="study-badge good">📚 Good study spot</span>`;
+    badgeClass = "good";
+    badgeText = "Good study spot";
+    reasonText = "Multiple study features";
   } else if (score === 1) {
-    return `<span class="study-badge inconclusive">📚 Inconclusive</span>`;
+    badgeClass = "inconclusive";
+    badgeText = "Inconclusive";
+    reasonText = "Limited info in reviews";
   } else {
-    return `<span class="study-badge inconclusive">📚 Inconclusive</span>`;
+    badgeClass = "inconclusive";
+    badgeText = "Inconclusive";
+    reasonText = "No study info in reviews";
   }
+
+  return `
+    <span class="study-badge-wrapper">
+      <span class="study-badge ${badgeClass}">📚 ${badgeText}</span>
+      <span class="study-tooltip">
+        <div class="tooltip-title">${reasonText}</div>
+        <div class="tooltip-features">Found: ${featuresText}</div>
+      </span>
+    </span>
+  `;
 }
 
 // Expose for inline onclick handlers
