@@ -84,3 +84,27 @@ button:hover {
   color: #c00;
   font-weight: bold;
 }
+
+.study-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+
+.study-badge.great {
+  background-color: #c8e6c9;
+  color: #1b5e20;
+}
+
+.study-badge.good {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.study-badge.inconclusive {
+  background-color: #fff3e0;
+  color: #e65100;
+}

@@ -133,6 +133,10 @@ function displayCards(places, userLat, userLng) {
       distanceText = miles < 0.1 ? "< 0.1 mi away" : `${miles.toFixed(1)} mi away`;
     }
 
+    // Analyze reviews for study score
+    const studyData = analyzeStudyScore(place.reviews);
+    const studyBadge = getStudyBadge(studyData);
+
     // start with a placeholder; we'll replace if we can fetch a photoUri
     const placeholder = "https://via.placeholder.com/250x150?text=No+Image";
 
@@ -144,6 +148,8 @@ function displayCards(places, userLat, userLng) {
       mapsUri,
       photo: placeholder,
       hours: todayHours,
+      studyScore: studyData.score,
+      studyFeatures: studyData.features,
     };
 
     card.innerHTML = `
@@ -153,6 +159,7 @@ function displayCards(places, userLat, userLng) {
       ${hours ? `<p class="${isOpen ? "open-now" : "closed-now"}">${isOpen ? "Open now" : "Closed"}</p>` : ""}
       ${todayHours ? `<p><small>🕐 ${escapeHtml(todayHours)}</small></p>` : ""}
       ${distanceText ? `<p><small>📍 ${distanceText}</small></p>` : ""}
+      ${studyBadge}
       ${
         mapsUri
           ? `<p><a href="${mapsUri}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>`
@@ -224,12 +231,15 @@ function showSaved() {
     const card = document.createElement("div");
     card.className = "location-card";
 
+    const studyBadge = getStudyBadge({ score: cafe.studyScore || 0, features: cafe.studyFeatures || [] });
+
     card.innerHTML = `
       <img src="${cafe.photo}" alt="${escapeHtml(cafe.name)}" />
       <h3>${escapeHtml(cafe.name)}</h3>
       <p>⭐️ Rating: ${cafe.rating}</p>
       ${cafe.hours ? `<p><small>🕐 ${escapeHtml(cafe.hours)}</small></p>` : ""}
       ${cafe.distance ? `<p><small>📍 ${escapeHtml(cafe.distance)}</small></p>` : ""}
+      ${studyBadge}
       ${
         cafe.mapsUri
           ? `<p><a href="${cafe.mapsUri}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>`
@@ -318,6 +328,52 @@ function getDistanceMiles(lat1, lng1, lat2, lng2) {
 
 function toRad(deg) {
   return deg * (Math.PI / 180);
+}
+
+// Analyze reviews to determine if cafe is good for studying
+function analyzeStudyScore(reviews) {
+  if (!reviews || reviews.length === 0) return { score: 0, features: [] };
+
+  const allText = reviews.map((r) => r.text?.text || "").join(" ").toLowerCase();
+
+  const categories = {
+    wifi: /\b(wifi|wi-fi|internet|free wifi)\b/i,
+    laptop: /\b(laptop|remote work|work from|working|computer)\b/i,
+    outlets: /\b(outlet|plug|charging|power)\b/i,
+    seating: /\b(seating|seats|tables|spacious|roomy|plenty of room)\b/i,
+    quiet: /\b(quiet|peaceful|calm|study|studying|focus|concentrate)\b/i,
+  };
+
+  const features = [];
+  for (const [name, regex] of Object.entries(categories)) {
+    if (regex.test(allText)) features.push(name);
+  }
+
+  return { score: features.length, features };
+}
+
+// Get study badge HTML - WiFi weighted more heavily
+function getStudyBadge(studyData) {
+  const { score, features } = studyData;
+  const hasWifi = features.includes("wifi");
+  const otherFeatures = features.filter(f => f !== "wifi").length;
+
+  if (hasWifi && otherFeatures >= 1) {
+    // WiFi + at least 1 other feature = Great
+    return `<p class="study-badge great">📚 Great study spot</p>`;
+  } else if (hasWifi) {
+    // WiFi only = Good
+    return `<p class="study-badge good">📚 Good study spot</p>`;
+  } else if (score >= 2) {
+    // 2+ features without WiFi = Good
+    return `<p class="study-badge good">📚 Good study spot</p>`;
+  } else if (score === 1) {
+    // 1 feature without WiFi = Inconclusive
+    return `<p class="study-badge inconclusive">📚 Inconclusive study spot</p>`;
+  } else {
+    // No features = Inconclusive
+    return `<p class="study-badge inconclusive">📚 Inconclusive study spot</p>`;
+  }
 }
 
 // Expose for inline onclick handlers

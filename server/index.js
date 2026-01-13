@@ -37,7 +37,7 @@ app.post("/api/nearby", async (req, res) => {
   };
 
   const fieldMask =
-    "places.displayName,places.id,places.rating,places.formattedAddress,places.googleMapsUri,places.photos,places.currentOpeningHours,places.location";
+    "places.displayName,places.id,places.rating,places.formattedAddress,places.googleMapsUri,places.photos,places.currentOpeningHours,places.location,places.reviews";
 
   try {
     const response = await fetch(endpoint, {
