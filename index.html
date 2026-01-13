@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cafe Curator</title>
+    <title>Cafinder</title>
 
     <link
       rel="icon"
@@ -22,8 +22,12 @@
   <body>
     <!-- Header -->
     <header class="app-header">
-      <h1 class="app-logo">☕ Cafe Curator</h1>
-      <button class="header-btn saved-btn" onclick="showSaved()" aria-label="View saved cafes">
+      <h1 class="app-logo">☕ Cafinder</h1>
+      <button
+        class="header-btn saved-btn"
+        onclick="showSaved()"
+        aria-label="View saved cafes"
+      >
         <span class="icon">♥</span>
       </button>
     </header>
@@ -34,7 +38,10 @@
       <div class="empty-state" id="emptyState">
         <div class="empty-icon">☕</div>
         <h2>Find Your Perfect Cafe</h2>
-        <p>Discover cozy spots to work, study, or just enjoy a great cup of coffee.</p>
+        <p>
+          Discover cozy spots to work, study, or just enjoy a great cup of
+          coffee.
+        </p>
         <button class="primary-btn" onclick="getLocation()">
           Find Cafes Near Me
         </button>
