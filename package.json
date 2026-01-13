@@ -1,0 +1,12 @@
+{
+  "name": "cafe-curator",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "vercel": "^50.3.0"
+  }
+}
